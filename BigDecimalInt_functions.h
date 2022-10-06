@@ -8,8 +8,8 @@ class BigDecimalInt{
 private:
     string s;
 public:
-    BigDecimalInt (const string& decStr);
-    BigDecimalInt (int decInt);
+    explicit  BigDecimalInt (const string& decStr);
+    explicit BigDecimalInt (int decInt);
     BigDecimalInt operator+ (const BigDecimalInt& anotherDec);
     BigDecimalInt operator- (const BigDecimalInt& anotherDec);
     bool operator< (const BigDecimalInt& anotherDec);
