@@ -21,4 +21,5 @@ public:
     friend ostream& operator << (ostream& out, const BigDecimalInt& b);
 };
 
+bool valid (string& str);
 #endif //BIGDECIMALINT_CLASS_BIGDECIMALINT_FUNCTIONS_H
