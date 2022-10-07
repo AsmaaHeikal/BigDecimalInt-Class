@@ -22,7 +22,7 @@ public:
     int sign();
     friend ostream& operator << (ostream& out, const BigDecimalInt& b);
     string getS();
-    BigDecimalInt plus ( BigDecimalInt& anotherDec);
+
 
 };
 
