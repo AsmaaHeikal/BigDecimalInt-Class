@@ -295,11 +295,13 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         finalNum.s = '-' +finalNum.s ;
         return finalNum;
     }
-    else if( !flag1 && !flag2){
-       string temp = num1 ;
-        num1 = num2 ;
-        num2 = temp;
+    else if( !flag1 && !flag2 ){
+        BigDecimalInt x (num2);
+        BigDecimalInt y (num1);
+        finalNum.s = (x-y).s;
+        return  finalNum;
     }
+
 
     ll numOfZeroes = abs((int)s.size()- (int)anotherDec.s.size());
     string zeroes (numOfZeroes, '0');
@@ -310,7 +312,8 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
 
         num2 = zeroes + num2 ;
     }
-
+    cout << "num1:" << num1 << endl;
+    cout << "num2: " << num2 << endl;
     deque <int> ans;
     int carry =0;
     for(int i = num1.size()-1 ; i>-1 ; i--){
