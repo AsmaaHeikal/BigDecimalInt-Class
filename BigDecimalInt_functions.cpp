@@ -264,7 +264,7 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
 
     }
 
-    if(flag1 && flag2 && num2 > num1 ){
+    if(flag1 && flag2 && (num2.size() > num1.size()) ){
         swap(num2, num1);
         sign = 0;
     }
@@ -312,6 +312,7 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
 
         num2 = zeroes + num2 ;
     }
+
     deque <int> ans;
     int carry =0;
     for(int i = num1.size()-1 ; i>-1 ; i--){
@@ -326,11 +327,13 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         else {
 
             for(int j = i-1 ; j > -1 ; j -- ){
+
                 if(num1[j] != '0'){
                     x += 10;
                     int temp = num1[j] -'0' -1;
                     num1[j] =char (temp +'0' );
                     break;
+
                 }
                 else{
                     num1[j] = '9';
@@ -345,6 +348,7 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
     for(int x : ans){
         finalNum.s += char(x+'0');
     }
+
     if(!sign){
         finalNum.s = '-' + finalNum.s ;
     }
