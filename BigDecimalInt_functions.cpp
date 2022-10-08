@@ -382,21 +382,55 @@ bool BigDecimalInt::operator< (const BigDecimalInt& anotherDec){
 
 }
 bool BigDecimalInt::operator> (const BigDecimalInt& anotherDec){
-
+    if(s.size() > anotherDec.s.size()){
+        return true;
+    }
+    else if( anotherDec.s.size() > s.size()){
+        return false;
+    }
+    else{
+        for(int i = 0 ; i < anotherDec.s.size() ; i++){
+            if(anotherDec.s[i] < s[i]){
+                return true;
+            }
+            else if(anotherDec.s[i] > s[i]){
+                return false;
+            }
+        }
+    }
+    return false ;
 }
 bool BigDecimalInt::operator==(const BigDecimalInt& anotherDec){
-
+    if(s.size() != anotherDec.s.size()){
+        return false;
+    }
+    else{
+        for(int i = 0 ; i < anotherDec.s.size() ; i++){
+            if(anotherDec.s[i] != s[i]){
+                return false;
+            }
+        }
+        return true ;
+    }
 }
 BigDecimalInt& BigDecimalInt:: operator= (const BigDecimalInt& anotherDec){
-
+    s = anotherDec.s;
 }
 int BigDecimalInt::size(){
-
+    return s.size();
 }
-int BigDecimalInt::sign(){}
-
-ostream &operator << (ostream& out, const BigDecimalInt& b){
-
+int BigDecimalInt::sign(){
+    //if + return 1
+    //if - return -1
+    if(isdigit(s[0])||s[0]=='+')
+        return 1;
+    else
+        return -1;
 }
 
-
+ostream &operator<< (ostream& out, BigDecimalInt& b){
+    if(b.s[0]=='+')
+        out << b.s.substr(1);
+    else
+        out << b.s;
+}
