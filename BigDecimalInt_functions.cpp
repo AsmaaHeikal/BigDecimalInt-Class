@@ -263,7 +263,7 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         num2.erase(num2.begin());
 
     }
-
+ 
     if(flag1 && flag2 && (num2.size() > num1.size()) ){
         swap(num2, num1);
         sign = 0;
@@ -428,9 +428,11 @@ int BigDecimalInt::sign(){
         return -1;
 }
 
-ostream &operator<< (ostream& out, BigDecimalInt& b){
+ostream& operator << (ostream& out, const BigDecimalInt& b){
     if(b.s[0]=='+')
         out << b.s.substr(1);
     else
         out << b.s;
+
+    return out ;
 }
