@@ -312,8 +312,6 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
 
         num2 = zeroes + num2 ;
     }
-    cout << "num1:" << num1 << endl;
-    cout << "num2: " << num2 << endl;
     deque <int> ans;
     int carry =0;
     for(int i = num1.size()-1 ; i>-1 ; i--){
@@ -332,6 +330,7 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
                     x += 10;
                     int temp = num1[j] -'0' -1;
                     num1[j] =char (temp +'0' );
+                    break;
                 }
                 else{
                     num1[j] = '9';
