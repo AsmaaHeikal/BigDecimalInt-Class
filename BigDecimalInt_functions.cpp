@@ -109,70 +109,11 @@ BigDecimalInt BigDecimalInt::operator+ (const BigDecimalInt& anotherDec){
     }
 
     else if(n1_sign && !n2_sign){
-        string y=anotherDec.s;
-        y.erase(y.begin());
-        if(s[0]=='+')s.erase(s.begin());
-        int sign=false;
-
-        int n_zeros = abs((int) s.size() - (int) y.size());
-        string q;
-        string zeros(n_zeros, '0');
-        q += zeros;
-
-        if(s>y){
-            sign=true;
-        }else sign=false;
-
-        if (s.size() > y.size()) {
-            q += y;
-        } else if(s.size()==y.size()){
-            if(sign)q=y;
-            else q=s;
-        }
-        else {
-            q += s;
-        }
-
-        if(sign){
-            //s-y
-            //y=q
-            vector<int>v((int)s.size(),0);
-            for(int i=(int)s.size()-1;i>=0;i--){
-                if(s[i]+v[i]>=q[i]){
-                    v[i]+=(s[i]-'0')-(q[i]-'0');
-                }
-                else{
-                    v[i]+=(s[i]-'0')+10-(q[i]-'0');
-                    v[i-1]--;
-                }
-            }
-            string str;
-            for (int i: v) {
-                str += char((char) i + '0');
-            }
-            BigDecimalInt rtrn(str);
-            return rtrn;
-        }
-        else{
-            //y-s
-            //s=q
-            vector<int>v((int)s.size(),0);
-            for(int i=(int)s.size()-1;i>=0;i--){
-                if(y[i]+v[i]>=q[i]){
-                    v[i]+=(y[i]-'0')-(q[i]-'0');
-                }
-                else{
-                    v[i]+=(y[i]-'0')+10-(q[i]-'0');
-                    v[i-1]--;
-                }
-            }
-            string str="-";
-            for (int i: v) {
-                str += char((char) i + '0');
-            }
-            BigDecimalInt rtrn(str);
-            return rtrn;
-        }
+        BigDecimalInt y (anotherDec.s);
+        y.s = '-' + y.s;
+        BigDecimalInt x(s);
+        BigDecimalInt rtrn((x-y).s);
+        return rtrn;
     }
     else if(!n1_sign && n2_sign){
         string y=s;
