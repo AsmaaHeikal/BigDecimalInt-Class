@@ -303,26 +303,37 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
 
 
 bool BigDecimalInt::operator< (const BigDecimalInt& anotherDec){
-    if(s.size() > anotherDec.s.size()){
-        return false;
-    }
-    else if( anotherDec.s.size() > s.size()){
-        return true;
-    }
-    else{
-        for(int i = 0 ; i < anotherDec.s.size() ; i++){
-            if(anotherDec.s[i] > s[i]){
-                return true;
-            }
-            else if(anotherDec.s[i] < s[i]){
-                return false;
+    BigDecimalInt anotherDec2 = anotherDec;
+    bool flag1= sign(), flag2 = anotherDec2.sign();
+    if(flag1 && flag2){
+        if(s.size() > anotherDec.s.size()){
+            return false;
+        }
+        else if( anotherDec.s.size() > s.size()){
+            return true;
+        }
+        else{
+            for(int i = 0 ; i < anotherDec.s.size() ; i++){
+                if(anotherDec.s[i] > s[i]){
+                    return true;
+                }
+                else if(anotherDec.s[i] < s[i]){
+                    return false;
+                }
             }
         }
     }
+    else if(!flag1 && flag2){
+        return true;
+    }
+
     return false ;
 
 }
 bool BigDecimalInt::operator> (const BigDecimalInt& anotherDec){
+    BigDecimalInt anotherDec2 = anotherDec;
+    bool flag1= sign(), flag2 = anotherDec2.sign();
+    if(flag1 && flag2){
     if(s.size() > anotherDec.s.size()){
         return true;
     }
@@ -339,6 +350,11 @@ bool BigDecimalInt::operator> (const BigDecimalInt& anotherDec){
             }
         }
     }
+    }
+    else if(flag2 && !flag1){
+        return true;
+    }
+
     return false ;
 }
 bool BigDecimalInt::operator==(const BigDecimalInt& anotherDec){
