@@ -186,6 +186,8 @@ BigDecimalInt BigDecimalInt::operator+ (const BigDecimalInt& anotherDec){
 }
 
 //____________________________________________________________________________________________________
+
+
 BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
     BigDecimalInt finalNum ;
     string num1 , num2;
@@ -204,12 +206,15 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         num2.erase(num2.begin());
 
     }
+
+    BigDecimalInt int1 (num1) , int2(num2);
  
-    if(flag1 && flag2 && (num2.size() > num1.size()) ){
+    if(flag1 && flag2 && (int2 > int1) ){  // to make sure that we subtract the smaller number from the bigger one
         swap(num2, num1);
         sign = 0;
     }
-    else if(flag1 && ! flag2){
+
+    else if(flag1 && ! flag2){ // in this case the subtraction will turn to addition
 
         BigDecimalInt x (num1);
         BigDecimalInt y (num2);
@@ -222,7 +227,8 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         }
         return finalNum;
     }
-    else if(!flag1 && flag2) {
+
+    else if(!flag1 && flag2) {  // here the sub. will turn to addition but with negative sign
 
         BigDecimalInt x (num1);
         BigDecimalInt y (num2);
@@ -236,7 +242,7 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         finalNum.s = '-' +finalNum.s ;
         return finalNum;
     }
-    else if( !flag1 && !flag2 ){
+    else if( !flag1 && !flag2 ){  // here numbers will exchange
         BigDecimalInt x (num2);
         BigDecimalInt y (num1);
         finalNum.s = (x-y).s;
@@ -261,7 +267,6 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         int y = num2[i]-'0';
 
         if(x>= y){
-
            ans.push_front((x- y+ carry)%10 );
             carry = (x-y+carry)/10;
         }
@@ -274,7 +279,6 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
                     int temp = num1[j] -'0' -1;
                     num1[j] =char (temp +'0' );
                     break;
-
                 }
                 else{
                     num1[j] = '9';
@@ -304,8 +308,14 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
 
 bool BigDecimalInt::operator< (const BigDecimalInt& anotherDec){
     BigDecimalInt anotherDec2 = anotherDec;
-    bool flag1= sign(), flag2 = anotherDec2.sign();
-    if(flag1 && flag2){
+    int flag1= sign(), flag2 = anotherDec2.sign();
+    if((s[0] == '+') || (s[0] == '-') ){
+        s.erase(s.begin());
+    }
+    if((anotherDec2.s[0] == '+') || (anotherDec2.s[0] == '-') ){
+        anotherDec2.s.erase(anotherDec2.s.begin());
+    }
+    if((flag1==1) && (flag2==1)){
         if(s.size() > anotherDec.s.size()){
             return false;
         }
@@ -323,40 +333,63 @@ bool BigDecimalInt::operator< (const BigDecimalInt& anotherDec){
             }
         }
     }
-    else if(!flag1 && flag2){
+    else if((flag1 == -1) && (flag2==1)){
         return true;
     }
+    else if ((flag1 == -1) && (flag2 == -1)){
+        BigDecimalInt x (s);
+        return ((x > anotherDec2));
 
+    }
     return false ;
-
 }
+
+//____________________________________________________________________________________
+
+
 bool BigDecimalInt::operator> (const BigDecimalInt& anotherDec){
     BigDecimalInt anotherDec2 = anotherDec;
-    bool flag1= sign(), flag2 = anotherDec2.sign();
-    if(flag1 && flag2){
-    if(s.size() > anotherDec.s.size()){
-        return true;
+    int flag1= sign(), flag2 = anotherDec2.sign();
+    bool sign1 = (flag1 == 1), sign2=(flag2 == 1);
+
+    if((s[0] == '+') || (s[0] == '-') ){
+        s.erase(s.begin());
     }
-    else if( anotherDec.s.size() > s.size()){
-        return false;
+
+    if((anotherDec2.s[0] == '+') || (anotherDec2.s[0] == '-') ){
+        anotherDec2.s.erase(anotherDec2.s.begin());
     }
-    else{
-        for(int i = 0 ; i < anotherDec.s.size() ; i++){
-            if(anotherDec.s[i] < s[i]){
+
+    if(sign1 && sign2){
+        if(s.size() > anotherDec.s.size()){
                 return true;
-            }
-            else if(anotherDec.s[i] > s[i]){
+        }
+        else if( anotherDec.s.size() > s.size()){
                 return false;
+        }
+        else{
+            for(int i = 0 ; i < anotherDec.s.size() ; i++){
+                if(anotherDec.s[i] < s[i]){
+                        return true;
+                }
+                else if(anotherDec.s[i] > s[i]){
+                        return false;
+                }
             }
         }
     }
-    }
-    else if(flag2 && !flag1){
+    else if(sign1 && ! sign2){
         return true;
     }
-
+    else if(!sign1 && !sign2){
+        BigDecimalInt x (s);
+       return ((x < anotherDec2));
+    }
     return false ;
 }
+
+//_____________________________________________________________________________________
+
 bool BigDecimalInt::operator==(const BigDecimalInt& anotherDec){
     if(s.size() != anotherDec.s.size()){
         return false;
@@ -370,12 +403,21 @@ bool BigDecimalInt::operator==(const BigDecimalInt& anotherDec){
         return true ;
     }
 }
+
+//__________________________________________________________________________________________
+
 BigDecimalInt& BigDecimalInt:: operator= (const BigDecimalInt& anotherDec){
     s = anotherDec.s;
 }
+
+//______________________________________________________________________________________
+
 int BigDecimalInt::size(){
     return s.size();
 }
+
+//_______________________________________________________________________
+
 int BigDecimalInt::sign(){
     //if + return 1
     //if - return -1
@@ -384,6 +426,7 @@ int BigDecimalInt::sign(){
     else
         return -1;
 }
+//____________________________________________________________________________________
 
 ostream& operator << (ostream& out, const BigDecimalInt& b){
     if(b.s[0]=='+')
