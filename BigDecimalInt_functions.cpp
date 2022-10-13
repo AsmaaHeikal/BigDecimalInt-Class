@@ -39,23 +39,24 @@ BigDecimalInt BigDecimalInt::operator+ (const BigDecimalInt& anotherDec){
         n2_sign=true;
     }else n2_sign=false;
     if(n2_sign&&n1_sign) {
-        if(s[0]=='+')s.erase(s.begin());
+        string cpyS=s;
+        if(cpyS[0]=='+')cpyS.erase(cpyS.begin());
         string y=anotherDec.s;
         if(anotherDec.s[0]=='+')y.erase(y.begin());
-        int len = s.size() > y.size() ? (int) s.size() : (int) y.size();
-        int n_zeros = abs((int) s.size() - (int) y.size());
+        int len = cpyS.size() > y.size() ? (int) cpyS.size() : (int) y.size();
+        int n_zeros = abs((int) cpyS.size() - (int) y.size());
         int carry = 0;
         string q;
         string zeros(n_zeros, '0');
         q += zeros;
-        if (s.size() > y.size()) {
+        if (cpyS.size() >= y.size()) {
             q += y;
         } else {
-            q += s;
+            q += cpyS;
         }
         deque<int> dq;
         for (int i = len - 1; i >= 0; i--) {
-            int sum = (s[i] - '0') + (q[i] - '0') + carry;
+            int sum = (int)(cpyS[i] - '0') + (int)(q[i] - '0') + carry;
             if (sum > 9) {
                 carry = 1;
                 dq.push_front(sum % 10);
@@ -72,6 +73,7 @@ BigDecimalInt BigDecimalInt::operator+ (const BigDecimalInt& anotherDec){
         BigDecimalInt rtrn(str);
         return rtrn;
     }
+        //Next statement will print 236913578023691357802369135780
     else if(!n2_sign&&!n1_sign){
         string s_cpy=s;
         s_cpy.erase(s_cpy.begin());
@@ -83,7 +85,7 @@ BigDecimalInt BigDecimalInt::operator+ (const BigDecimalInt& anotherDec){
         string q;
         string zeros(n_zeros, '0');
         q += zeros;
-        if (s_cpy.size() > y.size()) {
+        if (s_cpy.size() >= y.size()) {
             q += y;
         } else {
             q += s_cpy;
@@ -202,7 +204,7 @@ BigDecimalInt BigDecimalInt::operator+ (const BigDecimalInt& anotherDec){
         }
 
         if(sign){
-            //anotherS-y
+            //  anotherS-y
             //q=y
             vector<int>v((int)y.size(),0);
             for(int i=(int)y.size()-1;i>=0;i--){
