@@ -219,7 +219,7 @@ BigDecimalInt BigDecimalInt::operator- (const BigDecimalInt& anotherDec){
         BigDecimalInt x (num1);
         BigDecimalInt y (num2);
 
-        if(y.s.size() < x.s.size() ) {
+        if(y.s.size() <= x.s.size() ) {
             finalNum.s = (x+y).s;
         }
         else{
